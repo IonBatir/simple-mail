@@ -1,0 +1,29 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button [text]="getBackButtonText()" defaultHref="/"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" *ngIf="mail">
+  <ion-item>
+    <ion-icon name="person-circle" color="primary"></ion-icon>
+    <ion-label class="ion-text-wrap">
+      <h2>
+        {{ mail.from }}
+        <span class="date">
+          <ion-note>{{ mail.date | date:'d MMM HH:mm' }}</ion-note>
+        </span>
+      </h2>
+      <h3>To: <ion-note>Me</ion-note></h3>
+    </ion-label>
+  </ion-item>
+
+  <div class="ion-padding">
+    <h1>{{ mail.subject }}</h1>
+    <p>
+      {{ mail.content }}
+    </p>
+  </div>
+</ion-content>
