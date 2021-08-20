@@ -18,8 +18,11 @@ export class ViewMailPage implements OnInit {
 
   ngOnInit() {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
-    this.mailsService.get(id).subscribe(data => {
-      this.mail = data as Mail;
+    this.mailsService.get(id).subscribe(doc => {
+      this.mail = {id: doc.id, ...doc, date: doc.date?.toDate()} as Mail;
+      if (!this.mail.read) {
+        this.mailsService.markRead(id).then(() => {});
+      }
     });
   }
 
