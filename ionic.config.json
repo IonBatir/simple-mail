@@ -1,0 +1,8 @@
+{
+  "name": "Simple Mail",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular",
+  "id": "80e5d815"
+}
