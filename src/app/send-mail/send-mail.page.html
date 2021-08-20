@@ -1,0 +1,28 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button [text]="getBackButtonText()" defaultHref="/"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form [formGroup]="mailForm" (ngSubmit)="onSubmit()">
+    <ion-item>
+      <ion-label position="floating">To</ion-label>
+      <ion-input formControlName="to" type="text" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Subject</ion-label>
+      <ion-input formControlName="subject" type="text" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Content</ion-label>
+      <ion-textarea formControlName="content" required></ion-textarea>
+    </ion-item>
+
+    <ion-button class="ion-margin-top" type="submit" expand="block" color="success" [disabled]="!this.mailForm.valid">Send</ion-button>
+  </form>
+</ion-content>
