@@ -1,5 +1,7 @@
 import {Injectable} from '@angular/core';
 import {AngularFirestore, AngularFirestoreCollection} from '@angular/fire/firestore';
+import firebase from 'firebase';
+import FieldValue = firebase.firestore.FieldValue;
 
 export type Mail = {
   id: string;
@@ -21,8 +23,8 @@ export class MailsService {
     this.collection = this.firestore.collection('mails');
   }
 
-  add(subject, content, to) {
-    return this.collection.add({subject, content, to, from: '', date: new Date(), read: false});
+  add(data) {
+    return this.collection.add({...data, from: '', date: FieldValue.serverTimestamp(), read: false});
   }
 
   get(id) {
@@ -31,5 +33,9 @@ export class MailsService {
 
   getAll() {
     return this.collection.snapshotChanges();
+  }
+
+  markRead(id) {
+    return this.collection.doc(id).update({read: true});
   }
 }
