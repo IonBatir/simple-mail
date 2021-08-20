@@ -7,13 +7,17 @@ const routes: Routes = [
     loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
   },
   {
-    path: 'message/:id',
-    loadChildren: () => import('./view-message/view-message.module').then( m => m.ViewMessagePageModule)
-  },
-  {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full'
+  },
+  {
+    path: 'mail/:id',
+    loadChildren: () => import('./view-mail/view-mail.module').then( m => m.ViewMailPageModule)
+  },
+  {
+    path: 'send',
+    loadChildren: () => import('./send-mail/send-mail.module').then( m => m.SendMailPageModule)
   },
 ];
 
