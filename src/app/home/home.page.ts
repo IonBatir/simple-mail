@@ -1,22 +1,23 @@
-import { Component } from '@angular/core';
-import { DataService, Message } from '../services/data.service';
+import {Component, OnInit} from '@angular/core';
+import {MailsService, Mail} from '../services/mails.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage {
-  constructor(private data: DataService) {}
+export class HomePage implements OnInit {
+  public mails: Mail[];
 
-  refresh(ev) {
-    setTimeout(() => {
-      ev.detail.complete();
-    }, 3000);
+  constructor(private mailsService: MailsService) {
   }
 
-  getMessages(): Message[] {
-    return this.data.getMessages();
+  ngOnInit() {
+    this.mailsService.getAll().subscribe(response => {
+      this.mails = response.map(({payload: {doc}}) => {
+        const docData = doc.data();
+        return ({id: doc.id, ...docData, date: docData.date?.toDate()}) as Mail;
+      });
+    });
   }
-
 }

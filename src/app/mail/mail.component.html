@@ -1,0 +1,16 @@
+<ion-item *ngIf="mail" [routerLink]="'/message/' + mail.id" [detail]="false">
+  <div slot="start" [class]="!mail.read ? 'dot dot-unread' : 'dot'"></div>
+  <ion-label class="ion-text-wrap">
+    <h2>
+      {{ mail.from }}
+      <span class="date">
+        <ion-note>{{ mail.date | date:'d MMM HH:mm' }}</ion-note>
+        <ion-icon name="chevron-forward" size="small" *ngIf="isIos()"></ion-icon>
+      </span>
+    </h2>
+    <h3>{{ mail.subject }}</h3>
+    <p>
+      {{ mail.content }}
+    </p>
+  </ion-label>
+</ion-item>
