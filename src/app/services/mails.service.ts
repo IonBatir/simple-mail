@@ -21,14 +21,15 @@ export class MailsService {
   private collection: AngularFirestoreCollection;
 
   constructor(private firestore: AngularFirestore, private storage: Storage) {
-    this.collection = this.firestore.collection('mails');
     this.storage.create().then(storageInstance => {
       this.storage = storageInstance;
     });
   }
 
   setMail(mail) {
-    this.storage.set(MailsService.mailKey, mail).then(() => {});
+    this.storage.set(MailsService.mailKey, mail).then(() => {
+      this.collection = this.firestore.collection('mails', ref => ref.where('to', '==', mail));
+    });
   }
 
   add(data) {
