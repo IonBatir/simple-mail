@@ -25,7 +25,9 @@ export class MailsService {
       this.storage = storageInstance;
       this.getMail().then(mail => {
         if (mail) {
-          this.collection = this.firestore.collection('mails', ref => ref.where('to', '==', mail));
+          this.collection = this.firestore.collection('mails', ref =>
+            ref.where('to', '==', mail).orderBy('date', 'desc')
+          );
         }
       });
     });
@@ -37,7 +39,9 @@ export class MailsService {
 
   setMail(mail) {
     return this.storage.set(MailsService.mailKey, mail).then(() => {
-      this.collection = this.firestore.collection('mails', ref => ref.where('to', '==', mail));
+      this.collection = this.firestore.collection('mails', ref =>
+        ref.where('to', '==', mail).orderBy('date', 'desc')
+      );
     });
   }
 
