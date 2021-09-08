@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
-import { Router } from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {FormGroup, FormBuilder} from '@angular/forms';
+import {Router} from '@angular/router';
+import {LoadingController} from '@ionic/angular';
 
-import { MailsService } from '../services/mails.service';
+import {MailsService} from '../services/mails.service';
 
 @Component({
   selector: 'app-send-mail',
@@ -12,7 +13,11 @@ import { MailsService } from '../services/mails.service';
 export class SendMailPage implements OnInit {
   public mailForm: FormGroup;
 
-  constructor(public formBuilder: FormBuilder, private mailsService: MailsService, private router: Router) { }
+  constructor(public formBuilder: FormBuilder,
+              private mailsService: MailsService,
+              private router: Router,
+              private loadingController: LoadingController) {
+  }
 
   ngOnInit() {
     this.mailForm = this.formBuilder.group(({
@@ -26,9 +31,17 @@ export class SendMailPage implements OnInit {
     if (!this.mailForm.valid) {
       return false;
     } else {
-      this.mailsService.add(this.mailForm.value).then(() => {
-        this.mailForm.reset();
-        return this.router.navigate(['/']);
+      this.loadingController.create({
+        message: 'Loading'
+      }).then(loading => {
+        loading.present().then(() => {
+          this.mailsService.add(this.mailForm.value).then(() => {
+            loading.dismiss().then(() => {
+              this.mailForm.reset();
+              return this.router.navigate(['/']);
+            });
+          });
+        });
       });
     }
   }

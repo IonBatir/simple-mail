@@ -1,6 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-buttons slot="secondary">
+    <ion-buttons slot="primary">
       <ion-button [routerLink]="'/send'">
         <ion-icon slot="icon-only" name="add"></ion-icon>
       </ion-button>
@@ -12,14 +12,6 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">
-        Inbox
-      </ion-title>
-    </ion-toolbar>
-  </ion-header>
-
   <ion-list>
     <app-mail *ngFor="let mail of mails" [mail]="mail"></app-mail>
   </ion-list>

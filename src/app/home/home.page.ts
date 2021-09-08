@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {MailsService, Mail} from '../services/mails.service';
-import {AlertController} from '@ionic/angular';
+import {AlertController, LoadingController} from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -10,7 +10,7 @@ import {AlertController} from '@ionic/angular';
 export class HomePage implements OnInit {
   public mails: Mail[];
 
-  constructor(private alertController: AlertController, private mailsService: MailsService) {
+  constructor(private alertController: AlertController, private loadingController: LoadingController, private mailsService: MailsService) {
   }
 
   async ngOnInit() {
@@ -42,10 +42,18 @@ export class HomePage implements OnInit {
   }
 
   getMails() {
-    this.mailsService.getAll().subscribe(response => {
-      this.mails = response.map(({payload: {doc}}) => {
-        const docData = doc.data();
-        return ({id: doc.id, ...docData, date: docData.date?.toDate()}) as Mail;
+    this.loadingController.create({
+      message: 'Loading'
+    }).then(loading => {
+      loading.present().then(() => {
+        this.mailsService.getAll().subscribe(response => {
+          loading.dismiss().then(() => {
+            this.mails = response.map(({payload: {doc}}) => {
+              const docData = doc.data();
+              return ({id: doc.id, ...docData, date: docData.date?.toDate()}) as Mail;
+            });
+          });
+        });
       });
     });
   }
